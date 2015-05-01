@@ -141,7 +141,7 @@ React is all about modular, composable components. For our comment box example, 
   - CommentForm
 ```
 
-Let's build the CommentBox component, which is just a simple <div>:
+Let's build the CommentBox component, which is just a simple `<div>`:
 
 ```
 // tutorial1.js
@@ -171,7 +171,7 @@ Reactはほぼ完全に，組み立て方式であり，構成可能なコンポ
   - CommentForm
 ```
 
-では，CommentBoxコンポーネントを作成しましょう．とてもシンプルな<div>コンポーネントですね．
+では，CommentBoxコンポーネントを作成しましょう．とてもシンプルな`<div>`コンポーネントですね．
 
 ```
 // tutorial1.js
@@ -247,7 +247,7 @@ React.render(
 
 We pass some methods in a JavaScript object to React.createClass() to create a new React component. The most important of these methods is called render which returns a tree of React components that will eventually render to HTML.
 
-The <div> tags are not actual DOM nodes; they are instantiations of React div components. You can think of these as markers or pieces of data that React knows how to handle. React is safe. We are not generating HTML strings so XSS protection is the default.
+The `<div>` tags are not actual DOM nodes; they are instantiations of React div components. You can think of these as markers or pieces of data that React knows how to handle. React is safe. We are not generating HTML strings so XSS protection is the default.
 
 You do not have to return basic HTML. You can return a tree of components that you (or someone else) built. This is what makes React composable: a key tenet of maintainable frontends.
 
@@ -257,7 +257,7 @@ React.render() instantiates the root component, starts the framework, and inject
 
 新しいReactコンポーネントを生成するために，いくつかのメソッドを生やしたJavaScriptオブジェクトを，React.createClass()に渡します．メソッドの中で最も重要なのは，イベントが発生した時にHTMLを生成するReactコンポーネントのツリーをreturnするrenderメソッドがcallされていることです．
 
-<div>タグがありますがこれはいわゆるDOMではありません；これらはReactのdivコンポーネントツリーのインスタンスです．これらは，Reactがデータをどのように扱うかのマーカーや情報だと思ってください．Reactは**安全**なのです．決してHTML文字列を生成しないのでXSSプロテクトが施されているのです．
+`<div>`タグがありますがこれはいわゆるDOMではありません；これらはReactのdivコンポーネントツリーのインスタンスです．これらは，Reactがデータをどのように扱うかのマーカーや情報だと思ってください．Reactは**安全**なのです．決してHTML文字列を生成しないのでXSSプロテクトが施されているのです．
 
 一般的なHTMLを返す必要はありません．あなたが（もしくは誰かが）構築したコンポーネントツリーを返すべきです．このことがReactを**コンポーサブル（構築しやすく）**しています．これはメンテナンスしやすいフロントエンドのための重要な指針です．
 
@@ -265,7 +265,7 @@ React.render()はルートコンポーネントを生成し，配下のコンポ
 
 ## Composing components
 
-Let's build skeletons for CommentList and CommentForm which will, again, be simple <div>s:
+Let's build skeletons for CommentList and CommentForm which will, again, be simple `<div>`s:
 
 ```
 // tutorial2.js
@@ -311,7 +311,7 @@ Notice how we're mixing HTML tags and components we've built. HTML components ar
 
 ### コンポーネントを組み立てる
 
-では，再びシンプルな<div>で，CommentListとCommentFormのスケルトンを作りましょう：
+では，再びシンプルな`<div>`で，CommentListとCommentFormのスケルトンを作りましょう：
 
 ```
 // tutorial2.js
