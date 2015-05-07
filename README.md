@@ -1,7 +1,16 @@
 # React-tutorial_ja
+
 React-tutorial_ja
 
-Translation of Official React Tutorial to Japanese.
 
-道半ばなり．
+## Reactのオフィシャル・チュートリアルの和訳．  
+
+とても意訳． 
+文中のリンク先はオフィシャルを参照してください．もしくはがんばるかもです．
+
+
+## 進捗
+
+道半ば，いま半分くらい．
+
 

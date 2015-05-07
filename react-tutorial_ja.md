@@ -24,7 +24,7 @@ It'll also have a few neat features:
 - Live updates: other users' comments are popped into the comment view in real time. 
 - Markdown formatting: users can use Markdown to format their text.
 
-### チュートリアル
+### （訳）チュートリアル
 
 簡単で実用的なブログのコメントシステムを作成していきましょう．Disqus，LiveFyreやFacebookのリアルタイムコメントの基本的なシステムです．
 
@@ -41,7 +41,7 @@ It'll also have a few neat features:
 - マークダウン記法対応：ユーザはマークダウン記法を使用できます．
 
 
-### 調べた単語
+### （訳）調べた単語
 
 - Optimistic  
   楽観的な．
@@ -55,9 +55,9 @@ While it's not necessary to get started with this tutorial, later on we'll be ad
 To get started using the tutorial, just start editing public/index.html.
 
 
-### サーバの起動
+### （訳）サーバの起動
 
-チュートリアルを始める上では必須ではないけれども，いつかはサーバにPOSTする機能を追加することでしょう．もしサーバにとても精通していて，サーバをつくりたいというのであれば，作成してください！サーバーサイドの作成に時間を割かず，Reactにのみフォーカスして学びたいという方には，私たちがシンプルなサーバプログラムを用意しました．それらはいくつかの言語で書かれていて，JavaScript（Node.js），Python，Ruby，GoやPHPものがあります．それらはGitHubにあります．ソースコードが見れるし，zipファイルとしてダウンロードし，すぐ始めることができます．
+チュートリアルを始める上では必須ではないですが，いつかはサーバにPOSTする機能を追加することでしょう．もしサーバサイドに精通していて，サーバサイドをつくりたいというのであれば，ぜひ作成してください！サーバーサイドの作成に時間を割かず，Reactのみにフォーカスして学びたいという方には，私たちがシンプルなサーバプログラムを用意しました．それらはいくつかの言語で書かれていて，JavaScript（Node.js），Python，Ruby，GoやPHPのものがあります．それらはGitHubにあります．ソースコードが見れるし，zipファイルとしてダウンロードし，すぐ始めることができます．
 
 チュートリアルを開始します，public/index.htmlをエディタで書き始めましょう！
 
@@ -98,9 +98,9 @@ Note:
 We included jQuery here because we want to simplify the code of our future ajax calls, but it's NOT mandatory for React to work.
 
 
-### はじめましょう！
+### （訳）はじめましょう！
 
-このチュートリアルでは，CDNのビルド済みのJavaScriptライブラリを使います．では，お気に入りのエディタを起動して，新しいHTMLドキュメントを書きましょう：
+このチュートリアルでは，CDNにアップロードされている，ビルド済みJavaScriptライブラリを使います．お気に入りのエディタを起動して，新しいHTMLドキュメントを書きましょう：
 
 ```
 <!-- index.html -->
@@ -160,9 +160,9 @@ React.render(
 );
 ```
 
-### 最初のコンポーネント
+### （訳）最初のコンポーネント
 
-Reactはほぼ完全に，組み立て方式であり，構成可能なコンポーネントです．作成するCommentBoxの例では次のようなコンポーネントの構造を作ります：
+Reactはほぼ完全に，組み立て方式であり，構成可能なコンポーネントとなります．作成するCommentBoxの例では次のようなコンポーネントの構造を作ります：
 
 ```
 - CommentBox
@@ -219,7 +219,7 @@ React.render(
 
 Its use is optional but we've found JSX syntax easier to use than plain JavaScript. Read more on the JSX Syntax article.
 
-### JSX記法
+### （訳）JSX記法
 
 最初に注視すべきことは，JavaScriptの中にXMLっぽい記法があることでしょう．Reactには，以下のプレーンJavaScriptへ変換するプリコンパイラがあるのです．
 
@@ -243,7 +243,7 @@ React.render(
 プリコンパイラを使用することはオプションではありますが，プレーンJavaScriptよりも簡単に使えることがわかるかと思います．もっと知りたくなったならJSX記法の記事も読んでください．
 
 
-## What's going on
+## （訳）What's going on
 
 We pass some methods in a JavaScript object to React.createClass() to create a new React component. The most important of these methods is called render which returns a tree of React components that will eventually render to HTML.
 
@@ -253,7 +253,7 @@ You do not have to return basic HTML. You can return a tree of components that y
 
 React.render() instantiates the root component, starts the framework, and injects the markup into a raw DOM element, provided as the second argument.
 
-### 何が起こっているのでしょうか
+### （訳）何が起こっているのでしょうか
 
 新しいReactコンポーネントを生成するために，いくつかのメソッドを生やしたJavaScriptオブジェクトを，React.createClass()に渡します．メソッドの中で最も重要なのは，イベントが発生した時にHTMLを生成するReactコンポーネントのツリーをreturnするrenderメソッドがcallされていることです．
 
@@ -309,7 +309,7 @@ var CommentBox = React.createClass({
 
 Notice how we're mixing HTML tags and components we've built. HTML components are regular React components, just like the ones you define, with one difference. The JSX compiler will automatically rewrite HTML tags to React.createElement(tagName) expressions and leave everything else alone. This is to prevent the pollution of the global namespace.
 
-### コンポーネントを組み立てる
+### （訳）コンポーネントを組み立てる
 
 では，再びシンプルな`<div>`で，CommentListとCommentFormのスケルトンを作りましょう：
 
@@ -383,7 +383,7 @@ var Comment = React.createClass({
 
 By surrounding a JavaScript expression in braces inside JSX (as either an attribute or child), you can drop text or React components into the tree. We access named attributes passed to the component as keys on this.props and any nested elements as this.props.children.
 
-### propsを使う
+### （訳）propsを使う
 
 それではCommentコンポーネントを作りましょう．親コンポーネントから渡されるデータに依存します．
 親コンポーネントから渡されるデータは，子コンポーネントでは'プロパティ'として利用できます．これらのプロパティ群には，this.propsを通じてアクセスします．CommentListコンポーネントからCommentコンポーネントへ渡されるデータを読むことができるpropsを使うには，マークアップをrenderする時に渡します．
@@ -427,7 +427,7 @@ var CommentList = React.createClass({
 
 Note that we have passed some data from the parent CommentList component to the child Comment components. For example, we passed Pete Hunt (via an attribute) and This is one comment (via an XML-like child node) to the first Comment. As noted above, the Comment component will access these 'properties' through this.props.author, and this.props.children.
 
-### コンポーネントのプロパティ
+### （訳）コンポーネントのプロパティ
 
 さてCommentコンポーネントを定義したところで，コメントの投稿者とコメント・テキストを渡したいところでしょう．複数のコメントに対して同一コードを使用できます．では，CommentListコンポーネントにいくつかコメントを追加してみよう．
 
@@ -447,10 +447,138 @@ var CommentList = React.createClass({
 
 親コンポーネントのCommentListから子コンポーネントのCommentへ幾つかデータを渡しました．'Pete Hunt'（attributeとして）とコメント・テキストを（XMLライクな子ノードとして）を最初のCommentに渡しています．上記のようにして，Commentコンポーネントがthis.props.authorとthis.props.childrenを使って，これらの'プロパティ'にアクセスしています．
 
+## Adding Markdown
+
+Markdown is a simple way to format your text inline. For example, surrounding text with asterisks will make it emphasized.
+
+First, add the third-party library marked to your application. This is a JavaScript library which takes Markdown text and converts it to raw HTML. This requires a script tag in your head (which we have already included in the React playground):
+
+```
+<!-- index.html -->
+<head>
+  <title>Hello React</title>
+  <script src="https://fb.me/react-0.13.2.js"></script>
+  <script src="https://fb.me/JSXTransformer-0.13.2.js"></script>
+  <script src="https://code.jquery.com/jquery-1.10.0.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/0.3.2/marked.min.js"></script>
+</head>
+```
+
+Next, let's convert the comment text to Markdown and output it:
+
+```
+// tutorial6.js
+var Comment = React.createClass({
+  render: function() {
+    return (
+      <div className="comment">
+        <h2 className="commentAuthor">
+          {this.props.author}
+        </h2>
+        {marked(this.props.children.toString())}
+      </div>
+    );
+  }
+});
+```
+
+All we're doing here is calling the marked library. We need to convert this.props.children from React's wrapped text to a raw string that marked will understand so we explicitly call toString().
+
+But there's a problem! Our rendered comments look like this in the browser: "`<p>`This is `<em>`another`</em>` comment`</p>`". We want those tags to actually render as HTML.
+
+That's React protecting you from an XSS attack. There's a way to get around it but the framework warns you not to use it:
+
+```
+// tutorial7.js
+var Comment = React.createClass({
+  render: function() {
+    var rawMarkup = marked(this.props.children.toString(), {sanitize: true});
+    
+return (
+      <div className="comment">
+        <h2 className="commentAuthor">
+          {this.props.author}
+        </h2>
+        <span dangerouslySetInnerHTML={{__html: rawMarkup}} />
+      </div>
+    );
+  }
+});
+```
+
+This is a special API that intentionally makes it difficult to insert raw HTML, but for marked we'll take advantage of this backdoor.
+
+Remember: by using this feature you're relying on marked to be secure. In this case, we pass sanitize: true which tells marked to escape any HTML markup in the source instead of passing it through unchanged.
 
 
+### （和訳）Markdown機能を追加する
+
+Markdownはインライン・テキストを整形するのに簡単な機能です．例えばアスタリスクで囲んだテキストは強調されます．
+
+まず，サードパーティ製*marked*ライブラリを今回のアプリケーションに追加しましょう．これはMarkdownテキストを生のHTMLへコンバートするJavaScriptライブラリです．headタグにスクリプトタグを追加してください（React Playground）にはすでに追加されています．
+
+```
+<!-- index.html -->
+<head>
+  <title>Hello React</title>
+  <script src="https://fb.me/react-0.13.2.js"></script>
+  <script src="https://fb.me/JSXTransformer-0.13.2.js"></script>
+  <script src="https://code.jquery.com/jquery-2.1.3.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/0.3.2/marked.min.js"></script>
+</head>
+```
+
+次に，コメントテキストをMarkdownでフォーマットし，出力してみましょう．
+
+```
+// tutorial6.js
+var Comment = React.createClass({
+  render: function() {
+    return (
+      <div className="comment">
+        <h2 className="commentAuthor">
+          {this.props.author}
+        </h2>
+        {marked(this.props.children.toString())}
+      </div>
+    );
+  }
+});
+```
+
+ここでしていることはMarkdownライブラリを呼んでいるだけです．ここではthis.props.childrenをReactテキストから生のテキストにコンバートして，markedライブラリが解析できるように明示的にtoString()を呼んでいます．
+
+しかし，ここでひとつ問題があります！いまレンダリングしたコメントはブラウザでは次のように表示されます："`<p>`This is `<em>`another`</em>` comment`</p>`"．今の場合そのタグは実際にHTMLとしてレンダリングしたいはずです．
+
+このことはReactはXSS（クロス・サイト・スクリプション）攻撃から守ってくれていることを表しています．Reactフレームワークは使わないよう警告しますが，実現するのに別の方法があります：
+
+```
+// tutorial7.js
+var Comment = React.createClass({
+  render: function() {
+    var rawMarkup = marked(this.props.children.toString(), {sanitize: true});
+    
+return (
+      <div className="comment">
+        <h2 className="commentAuthor">
+          {this.props.author}
+        </h2>
+        <span dangerouslySetInnerHTML={{__html: rawMarkup}} />
+      </div>
+    );
+  }
+});
+```
+
+これは生HTMLを挿入することを意図的に難しくする特別なAPIです．しかしmarkedにはバックドアに対して有効でしょう．
+
+*覚えておいてください*：この機能を使うことによって安全にmarkedを使用できるでしょう．このサンプルでは， marked に sanitize: true を渡して，そのまま渡すのではなく，HTMLマークアップにするよう知らせているのです．
 
 
+### 調べた単語
+
+- get around it
+  There' no way to getting around it. それは避けて通れないよ．
 
 
 
