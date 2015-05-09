@@ -581,4 +581,127 @@ return (
   There' no way to getting around it. それは避けて通れないよ．
 
 
+# Hook up the data model
+
+So far we've been inserting the comments directly in the source code. Instead, let's render a blob of JSON data into the comment list. Eventually this will come from the server, but for now, write it in your source:
+
+```
+// tutorial8.js
+var data = [
+  {author: "Pete Hunt", text: "This is one comment"},
+  {author: "Jordan Walke", text: "This is *another* comment"}
+];
+```
+
+We need to get this data into CommentList in a modular way. Modify CommentBox and the React.render() call to pass this data into the CommentList via props:
+
+```
+// tutorial9.js
+var CommentBox = React.createClass({
+  render: function() {
+    return (
+      <div className="commentBox">
+        <h1>Comments</h1>
+        <CommentList data={this.props.data} />
+        <CommentForm />
+      </div>
+    );
+  }
+});
+
+React.render(
+  <CommentBox data={data} />,
+  document.getElementById('content')
+);
+```
+
+Now that the data is available in the CommentList, let's render the comments dynamically:
+
+```
+// tutorial10.js
+var CommentList = React.createClass({
+  render: function() {
+    var commentNodes = this.props.data.map(function (comment) {
+      return (
+        <Comment author={comment.author}>
+          {comment.text}
+        </Comment>
+      );
+    });
+    
+return (
+      <div className="commentList">
+        {commentNodes}
+      </div>
+    );
+  }
+});
+```
+
+That's it!
+
+
+### （和訳）データモデルを渡す
+
+これまではコメントをソースコード中に直接書いていました．今度はJSONデータをコメント・リストの中へレンダリングしてみましょう：
+
+```
+// tutorial8.js
+var data = [
+  {author: "Pete Hunt", text: "This is one comment"},
+  {author: "Jordan Walke", text: "This is *another* comment"}
+];
+```
+
+CommentListへデータを流しこむには組み立てるようにする必要があります．CommentBoxとを React.render() を編集します．そこで， CommentList に props を使ってデータを渡します．
+
+```
+// tutorial9.js
+var CommentBox = React.createClass({
+  render: function() {
+    return (
+      <div className="commentBox">
+        <h1>Comments</h1>
+        <CommentList data={this.props.data} />
+        <CommentForm />
+      </div>
+    );
+  }
+});
+
+React.render(
+  <CommentBox data={data} />,
+  document.getElementById('content')
+);
+```
+
+もう CommentListではデータを扱えます．コメント群をダイナミックにレンダリングしてみましょう：
+
+```
+// tutorial10.js
+var CommentList = React.createClass({
+  render: function() {
+    var commentNodes = this.props.data.map(function (comment) {
+      return (
+        <Comment author={comment.author}>
+          {comment.text}
+        </Comment>
+      );
+    });
+    
+return (
+      <div className="commentList">
+        {commentNodes}
+      </div>
+    );
+  }
+});
+```
+
+こんなかんじです！
+
+
+
+
+
 
