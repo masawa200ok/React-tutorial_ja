@@ -701,6 +701,537 @@ return (
 こんなかんじです！
 
 
+## Fetching from the server
+
+Let's replace the hard-coded data with some dynamic data from the server. We will remove the data prop and replace it with a URL to fetch:
+
+```
+// tutorial11.js
+React.render(
+  <CommentBox url="comments.json" />,
+  document.getElementById('content')
+);
+```
+
+This component is different from the prior components because it will have to re-render itself. The component won't have any data until the request from the server comes back, at which point the component may need to render some new comments.
+
+### （和訳）サーバからデータを取得する
+
+直接書いた（hard-coded）データを，サーバから取得する動的なデータに置き換えましょう．データ・プロパティを取りのぞきデータを取得するURLへ置き換えます：
+
+```
+// tutorial11.js
+React.render(
+  <CommentBox url="comments.json" />,
+  document.getElementById('content')
+);
+```
+
+このコンポーネントは以前のものとは，自身をレンダリングし直すという点で，違います．コンポーネントはデータを持っていません．サーバからリクエストが戻ってくると，コンポーネントは対象のコメントをレンダリングしなおします．
+
+## Reactive state
+
+So far, each component has rendered itself once based on its props. props are immutable: they are passed from the parent and are "owned" by the parent. To implement interactions, we introduce mutable state to the component. this.state is private to the component and can be changed by calling this.setState(). When the state is updated, the component re-renders itself.
+
+render() methods are written declaratively as functions of this.props and this.state. The framework guarantees the UI is always consistent with the inputs.
+
+When the server fetches data, we will be changing the comment data we have. Let's add an array of comment data to the CommentBox component as its state:
+
+```
+// tutorial12.js
+var CommentBox = React.createClass({
+  getInitialState: function() {
+    return {data: []};
+  },
+  
+render: function() {
+    return (
+      <div className="commentBox">
+        <h1>Comments</h1>
+        <CommentList data={this.state.data} />
+        <CommentForm />
+      </div>
+    );
+  }
+});
+```
+
+getInitialState() executes exactly once during the lifecycle of the component and sets up the initial state of the component.
+
+### Updating state
+
+When the component is first created, we want to GET some JSON from the server and update the state to reflect the latest data. In a real application this would be a dynamic endpoint, but for this example, we will use a static JSON file to keep things simple:
+
+```
+// tutorial13.json
+[
+  {"author": "Pete Hunt", "text": "This is one comment"},
+  {"author": "Jordan Walke", "text": "This is *another* comment"}
+]
+```
+
+We'll use jQuery to help make an asynchronous request to the server.
+
+Note: because this is becoming an AJAX application you'll need to develop your app using a web server rather than as a file sitting on your file system. As mentioned above, we have provided several servers you can use on GitHub. They provide the functionality you need for the rest of this tutorial.
+
+```
+// tutorial13.js
+var CommentBox = React.createClass({
+  getInitialState: function() {
+    return {data: []};
+  },
+  componentDidMount: function() {
+    $.ajax({
+      url: this.props.url,
+      dataType: 'json',
+      cache: false,
+      success: function(data) {
+        this.setState({data: data});
+      }.bind(this),
+      error: function(xhr, status, err) {
+        console.error(this.props.url, status, err.toString());
+      }.bind(this)
+    });
+  },
+  
+render: function() {
+    return (
+      <div className="commentBox">
+        <h1>Comments</h1>
+        <CommentList data={this.state.data} />
+        <CommentForm />
+      </div>
+    );
+  }
+});
+```
+
+Here, componentDidMount is a method called automatically by React when a component is rendered. The key to dynamic updates is the call to this.setState(). We replace the old array of comments with the new one from the server and the UI automatically updates itself. Because of this reactivity, it is only a minor change to add live updates. We will use simple polling here but you could easily use WebSockets or other technologies.
+
+```
+// tutorial14.js
+var CommentBox = React.createClass({
+  loadCommentsFromServer: function() {
+    
+$.ajax({
+      url: this.props.url,
+      dataType: 'json',
+      cache: false,
+      success: function(data) {
+        this.setState({data: data});
+      }.bind(this),
+      error: function(xhr, status, err) {
+        console.error(this.props.url, status, err.toString());
+      }.bind(this)
+    });
+  },
+  
+getInitialState: function() {
+    return {data: []};
+  },
+  componentDidMount: function() {
+    this.loadCommentsFromServer();
+    setInterval(this.loadCommentsFromServer, this.props.pollInterval);
+  
+},
+  render: function() {
+    return (
+      <div className="commentBox">
+        <h1>Comments</h1>
+        <CommentList data={this.state.data} />
+        <CommentForm />
+      </div>
+    );
+  }
+});
+
+React.render(
+  <CommentBox url="comments.json" pollInterval={2000} />,
+  document.getElementById('content')
+);
+```
+
+All we have done here is move the AJAX call to a separate method and call it when the component is first loaded and every 2 seconds after that. Try running this in your browser and changing the comments.json file; within 2 seconds, the changes will show!
+
+### （和訳）Reactのstate
+
+それぞれのコンポーネントは，propsを参照し，レンダリングを一度しかしません．propsはイミュータブル（不変）なのです：
+データは親コンポーネントから渡され，"親のもの"です．データのやりとりを実装するにはミュータブル（可変の）な*state*をコンポーネントへ用意しました．stateが更新されるとコンポーネントはレンダリングしなおします．
+
+render() は，this.prop と this.state の機能として定義されているメソッドです．
+
+サーバがデータを取得したとき，いまあるコメントでデータを変更します．それではコメントデータ配列をCommentBoxコンポーネントへstate として追加してみましょう：
+
+```
+// tutorial12.js
+var CommentBox = React.createClass({
+  getInitialState: function() {
+    return {data: []};
+  },
+  
+render: function() {
+    return (
+      <div className="commentBox">
+        <h1>Comments</h1>
+        <CommentList data={this.state.data} />
+        <CommentForm />
+      </div>
+    );
+  }
+});
+```
+
+getInitialState() はそのコンポーネントのライフサイクルにおいて一度しか実行されません．そしてそのコンポーネントの初期stateを設定します．
+
+### Updating state
+
+そのコンポーネントが作成された最初に，わたしたいはサーバからJSONデータをGETしたいです．stateに最新のデータを更新します．実際のアプリケーションではJSONをGETすることはダイナミック（動的に）行われることでしょう．でも，今回の例では，簡単な例に保つために静的なJSONデータファイルを使用していきます．
+
+```
+// tutorial13.json
+[
+  {"author": "Pete Hunt", "text": "This is one comment"},
+  {"author": "Jordan Walke", "text": "This is *another* comment"}
+]
+```
+
+サーバへのAJAX通信にはjQueryを使用します．
+
+Note：ここでAJAXアプリケーションの例になっているのは，ファイルシステムからファイルを読むよりもウェブサーバを使用するアプリケーション開発することの方が求められるであろうからです．**そう言及したのにはGitHubに**あなたがいますぐ使えるサーバプログラムを用意しているからです．このチュートリアルの以降の部分ではそれらの機能をしようします．
+
+```
+// tutorial13.js
+var CommentBox = React.createClass({
+  getInitialState: function() {
+    return {data: []};
+  },
+  componentDidMount: function() {
+    $.ajax({
+      url: this.props.url,
+      dataType: 'json',
+      cache: false,
+      success: function(data) {
+        this.setState({data: data});
+      }.bind(this),
+      error: function(xhr, status, err) {
+        console.error(this.props.url, status, err.toString());
+      }.bind(this)
+    });
+  },
+  render: function() {
+    return (
+      <div className="commentBox">
+        <h1>Comments</h1>
+        <CommentList data={this.state.data} />
+        <CommentForm />
+      </div>
+    );
+  }
+});
+```
+
+ここでは componentDidMount は，コンポーネントがレンダリングされた時にReactから自動的に呼び出される，メソッドです．ダイナミック・アップデートするための鍵となるのが，this.setState() を呼ぶことです．コメントの配列を使用しているところを，サーバから取得するよう置き換えました．UI（見た目，ユーザ・インターフェース）が自動的に更新されます．このreactivityを見るためにしたことは，ライブ・アップデートを追加する小さな変更を加えただけです．簡単なポーリング（サーバ問い合わせ）を採用しましたが，ここはWebSocketなどの技術に簡単に置き換えられることができます．
+
+```
+// tutorial14.js
+var CommentBox = React.createClass({
+  loadCommentsFromServer: function() {
+    
+$.ajax({
+      url: this.props.url,
+      dataType: 'json',
+      cache: false,
+      success: function(data) {
+        this.setState({data: data});
+      }.bind(this),
+      error: function(xhr, status, err) {
+        console.error(this.props.url, status, err.toString());
+      }.bind(this)
+    });
+  },
+  
+getInitialState: function() {
+    return {data: []};
+  },
+  componentDidMount: function() {
+    this.loadCommentsFromServer();
+    setInterval(this.loadCommentsFromServer, this.props.pollInterval);
+  
+},
+  render: function() {
+    return (
+      <div className="commentBox">
+        <h1>Comments</h1>
+        <CommentList data={this.state.data} />
+        <CommentForm />
+      </div>
+    );
+  }
+});
+
+React.render(
+  <CommentBox url="comments.json" pollInterval={2000} />,
+  document.getElementById('content')
+);
+```
+
+今変更を加えたところは，AJAXコールを一つのメソッドにまとめて，コンポーネントが際しにロードされた時と，その後2秒おきにそのメソッドを呼ぶことができるようにしたことです．ブラウザで試してみましょう．ファイルを編集してみてください．2秒としないうちに変更があったことがわかるでしょう！
+
+## Adding new comments
+
+Now it's time to build the form. Our CommentForm component should ask the user for their name and comment text and send a request to the server to save the comment.
+
+```
+// tutorial15.js
+var CommentForm = React.createClass({
+  render: function() {
+    return (
+      <form className="commentForm">
+        <input type="text" placeholder="Your name" />
+        <input type="text" placeholder="Say something..." />
+        <input type="submit" value="Post" />
+      </form>
+    
+);
+  }
+});
+```
+
+Let's make the form interactive. When the user submits the form, we should clear it, submit a request to the server, and refresh the list of comments. To start, let's listen for the form's submit event and clear it.
+
+```
+// tutorial16.js
+var CommentForm = React.createClass({
+  handleSubmit: function(e) {
+    e.preventDefault();
+    var author = React.findDOMNode(this.refs.author).value.trim();
+    var text = React.findDOMNode(this.refs.text).value.trim();
+    if (!text || !author) {
+      return;
+    }
+    // TODO: send request to the server
+    React.findDOMNode(this.refs.author).value = '';
+    React.findDOMNode(this.refs.text).value = '';
+    return;
+  },
+  
+render: function() {
+    return (
+      <form className="commentForm" onSubmit={this.handleSubmit}>
+        <input type="text" placeholder="Your name" ref="author" />
+        <input type="text" placeholder="Say something..." ref="text" />
+        <input type="submit" value="Post" />
+      </form>
+    );
+  }
+});
+```
+
+### Events
+
+React attaches event handlers to components using a camelCase naming convention. We attach an onSubmit handler to the form that clears the form fields when the form is submitted with valid input.
+
+Call preventDefault() on the event to prevent the browser's default action of submitting the form.
+
+### Refs
+
+We use the ref attribute to assign a name to a child component and this.refs to reference the component. We can call React.findDOMNode(component) on a component to get the native browser DOM element.
+
+### Callbacks as props
+
+When a user submits a comment, we will need to refresh the list of comments to include the new one. It makes sense to do all of this logic in CommentBox since CommentBox owns the state that represents the list of comments.
+
+We need to pass data from the child component back up to its parent. We do this in our parent's render method by passing a new callback (handleCommentSubmit) into the child, binding it to the child's onCommentSubmit event. Whenever the event is triggered, the callback will be invoked:
+
+```
+// tutorial17.js
+var CommentBox = React.createClass({
+  loadCommentsFromServer: function() {
+    $.ajax({
+      url: this.props.url,
+      dataType: 'json',
+      cache: false,
+      success: function(data) {
+        this.setState({data: data});
+      }.bind(this),
+      error: function(xhr, status, err) {
+        console.error(this.props.url, status, err.toString());
+      }.bind(this)
+    });
+  },
+  handleCommentSubmit: function(comment) {
+    // TODO: submit to the server and refresh the list
+  },
+  
+getInitialState: function() {
+    return {data: []};
+  },
+  componentDidMount: function() {
+    this.loadCommentsFromServer();
+    setInterval(this.loadCommentsFromServer, this.props.pollInterval);
+  },
+  render: function() {
+    return (
+      <div className="commentBox">
+        <h1>Comments</h1>
+        <CommentList data={this.state.data} />
+        <CommentForm onCommentSubmit={this.handleCommentSubmit} />
+      </div>
+    );
+  }
+});
+```
+
+Let's call the callback from the CommentForm when the user submits the form:
+
+```
+// tutorial18.js
+var CommentForm = React.createClass({
+  handleSubmit: function(e) {
+    e.preventDefault();
+    var author = React.findDOMNode(this.refs.author).value.trim();
+    var text = React.findDOMNode(this.refs.text).value.trim();
+    if (!text || !author) {
+      return;
+    }
+    this.props.onCommentSubmit({author: author, text: text});
+    
+React.findDOMNode(this.refs.author).value = '';
+    React.findDOMNode(this.refs.text).value = '';
+    return;
+  },
+  render: function() {
+    return (
+      <form className="commentForm" onSubmit={this.handleSubmit}>
+        <input type="text" placeholder="Your name" ref="author" />
+        <input type="text" placeholder="Say something..." ref="text" />
+        <input type="submit" value="Post" />
+      </form>
+    );
+  }
+});
+```
+
+Now that the callbacks are in place, all we have to do is submit to the server and refresh the list:
+
+```
+// tutorial19.js
+var CommentBox = React.createClass({
+  loadCommentsFromServer: function() {
+    $.ajax({
+      url: this.props.url,
+      dataType: 'json',
+      cache: false,
+      success: function(data) {
+        this.setState({data: data});
+      }.bind(this),
+      error: function(xhr, status, err) {
+        console.error(this.props.url, status, err.toString());
+      }.bind(this)
+    });
+  },
+  handleCommentSubmit: function(comment) {
+    $.ajax({
+      url: this.props.url,
+      dataType: 'json',
+      type: 'POST',
+      data: comment,
+      success: function(data) {
+        this.setState({data: data});
+      }.bind(this),
+      error: function(xhr, status, err) {
+        console.error(this.props.url, status, err.toString());
+      }.bind(this)
+    });
+  
+},
+  getInitialState: function() {
+    return {data: []};
+  },
+  componentDidMount: function() {
+    this.loadCommentsFromServer();
+    setInterval(this.loadCommentsFromServer, this.props.pollInterval);
+  },
+  render: function() {
+    return (
+      <div className="commentBox">
+        <h1>Comments</h1>
+        <CommentList data={this.state.data} />
+        <CommentForm onCommentSubmit={this.handleCommentSubmit} />
+      </div>
+    );
+  }
+});
+```
+
+### (和訳)新しいコメントを追加する
+
+それではフォームを作成しましょう．CommentFormコンポーネントは，コメント投稿者の名前とコメント・テキストが必要です．それからサーバへコメントを保存するようリクエストを送信します．
+
+```
+// tutorial15.js
+var CommentForm = React.createClass({
+  render: function() {
+    return (
+      <form className="commentForm">
+        <input type="text" placeholder="Your name" />
+        <input type="text" placeholder="Say something..." />
+        <input type="submit" value="Post" />
+      </form>
+    );
+  }
+});
+```
+
+フォームはインタラクティブにします．ユーザがフォームをサブミットしたら，フォームをクリアし，サーバへリクエストを送信し，コメント・リストを更新します．はじめにフォームのサブミットイベントを監視し，フォームをクリアするようにしましょう．
+
+```
+// tutorial16.js
+var CommentForm = React.createClass({
+  handleSubmit: function(e) {
+    e.preventDefault();
+    var author = React.findDOMNode(this.refs.author).value.trim();
+    var text = React.findDOMNode(this.refs.text).value.trim();
+    if (!text || !author) {
+      return;
+    }
+    // TODO: send request to the server
+    React.findDOMNode(this.refs.author).value = '';
+    React.findDOMNode(this.refs.text).value = '';
+    return;
+  },
+  
+render: function() {
+    return (
+      <form className="commentForm" onSubmit={this.handleSubmit}>
+        <input type="text" placeholder="Your name" ref="author" />
+        <input type="text" placeholder="Say something..." ref="text" />
+        <input type="submit" value="Post" />
+      </form>
+    );
+  }
+});
+```
+
+### Events
+
+Reactはキャメルケースというネーミングルールに従い，イベントハンドラをコンポーネントに割り当てます．フォームで正しい入力が行われsubmitされたならば，フォームフィールドをクリアする onSubmit ハンドラをフォームに割り当てます．
+ブラウザのフォームをサブミットするデフォルト動作を抑制するために，イベントで preventDefault() を実行してください．
+
+### Refs
+
+子コンポーネントに対しての変数名として ref 属性をしようします．そして this.refs としてコンポーネントが参照します．コンポーネントではネイティブなブラウザDOM要素を取得するのに React.findDOMNode(component) を呼び出します．
+
+### Callbacks as props
+
+
+
+
+
+
+
+
+
 
 
 
