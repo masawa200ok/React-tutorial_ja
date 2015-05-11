@@ -8,7 +8,9 @@
 
 2014-05-01時点．
 
-## Tutorial
+===
+
+# Tutorial
 
 We'll be building a simple but realistic comments box that you can drop into a blog, a basic version of the realtime comments offered by Disqus, LiveFyre or Facebook comments.
 
@@ -24,7 +26,7 @@ It'll also have a few neat features:
 - Live updates: other users' comments are popped into the comment view in real time. 
 - Markdown formatting: users can use Markdown to format their text.
 
-### （訳）チュートリアル
+## （和訳）チュートリアル
 
 簡単で実用的なブログのコメントシステムを作成していきましょう．Disqus，LiveFyreやFacebookのリアルタイムコメントの基本的なシステムです．
 
@@ -36,20 +38,20 @@ It'll also have a few neat features:
 
 他にも実装するいくつかの機能：
 
-- サクサクとコメント投稿：コメントはサーバにセーブする前にリストしちゃいます．
-- ライブ・アップデート：他のユーザがコメントを投稿したらリアルタイムでリストされます．
-- マークダウン記法対応：ユーザはマークダウン記法を使用できます．
+- コメント投稿の即反映
+- ライブ・アップデート
+- マークダウン記法対応
 
 ===
 
-## Running a server
+# Running a server
 
 While it's not necessary to get started with this tutorial, later on we'll be adding functionality that requires POSTing to a running server. If this is something you are intimately familiar with and want to create your own server, please do. For the rest of you who might want to focus on learning about React without having to worry about the server-side aspects, we have written simple servers in a number of languages - JavaScript (using Node.js), Python, Ruby, Go, and PHP. These are all available on GitHub. You can view the source or download a zip file to get started.
 
 To get started using the tutorial, just start editing public/index.html.
 
 
-### （訳）サーバの起動
+## （和訳）サーバの起動
 
 チュートリアルを始める上では必須ではないですが，いつかはサーバにPOSTする機能を追加することでしょう．もしサーバサイドに精通していて，サーバサイドをつくりたいというのであれば，ぜひ作成してください！サーバーサイドの作成に時間を割かず，Reactのみにフォーカスして学びたいという方には，私たちがシンプルなサーバプログラムを用意しました．それらはいくつかの言語で書かれていて，JavaScript（Node.js），Python，Ruby，GoやPHPのものがあります．それらはGitHubにあります．ソースコードが見れるし，zipファイルとしてダウンロードし，すぐ始めることができます．
 
@@ -57,7 +59,7 @@ To get started using the tutorial, just start editing public/index.html.
 
 ===
 
-## Getting started
+# Getting started
 
 For this tutorial, we'll use prebuilt JavaScript files on a CDN. Open up your favorite editor and create a new HTML document:
 
@@ -85,7 +87,7 @@ Note:
 We included jQuery here because we want to simplify the code of our future ajax calls, but it's NOT mandatory for React to work.
 
 
-### （訳）はじめましょう！
+## （和訳）はじめましょう！
 
 このチュートリアルでは，CDNにアップロードされている，ビルド済みJavaScriptライブラリを使います．お気に入りのエディタを起動して，新しいHTMLドキュメントを書きましょう：
 
@@ -114,7 +116,7 @@ jQueryをインクルードしてますが，それはAjax処理のコード部�
 
 ===
 
-## Your first component
+# Your first component
 
 React is all about modular, composable components. For our comment box example, we'll have the following component structure:
 
@@ -144,7 +146,7 @@ React.render(
 );
 ```
 
-### （訳）最初のコンポーネント
+## （和訳）最初のコンポーネント
 
 Reactはほぼ完全に，組み立て方式であり，構成可能なコンポーネントとなります．作成するCommentBoxの例では次のようなコンポーネントの構造を作ります：
 
@@ -176,7 +178,7 @@ React.render(
 
 === 
 
-## JSX Syntax
+# JSX Syntax
 
 The first thing you'll notice is the XML-ish syntax in your JavaScript. We have a simple precompiler that translates the syntactic sugar to this plain JavaScript:
 
@@ -199,7 +201,7 @@ React.render(
 
 Its use is optional but we've found JSX syntax easier to use than plain JavaScript. Read more on the JSX Syntax article.
 
-### （訳）JSX記法
+## （和訳）JSX記法
 
 最初に注視すべきことは，JavaScriptの中にXMLっぽい記法があることでしょう．Reactには，以下のプレーンJavaScriptへ変換するプリコンパイラがあるのです．
 
@@ -224,7 +226,7 @@ React.render(
 
 ===
 
-## What's going on
+# What's going on
 
 We pass some methods in a JavaScript object to React.createClass() to create a new React component. The most important of these methods is called render which returns a tree of React components that will eventually render to HTML.
 
@@ -234,7 +236,7 @@ You do not have to return basic HTML. You can return a tree of components that y
 
 React.render() instantiates the root component, starts the framework, and injects the markup into a raw DOM element, provided as the second argument.
 
-### （訳）何が起こっているのでしょうか
+## （和訳）何が起こっているのでしょうか
 
 新しいReactコンポーネントを生成するために，いくつかのメソッドを生やしたJavaScriptオブジェクトを，React.createClass()に渡します．メソッドの中で最も重要なのは，イベントが発生した時にHTMLを生成するReactコンポーネントのツリーをreturnするrenderメソッドがcallされていることです．
 
@@ -246,7 +248,7 @@ React.render()はルートコンポーネントを生成し，配下のコンポ
 
 ===
 
-## Composing components
+# Composing components
 
 Let's build skeletons for CommentList and CommentForm which will, again, be simple `<div>`s:
 
@@ -292,7 +294,7 @@ var CommentBox = React.createClass({
 
 Notice how we're mixing HTML tags and components we've built. HTML components are regular React components, just like the ones you define, with one difference. The JSX compiler will automatically rewrite HTML tags to React.createElement(tagName) expressions and leave everything else alone. This is to prevent the pollution of the global namespace.
 
-### （訳）コンポーネントを組み立てる
+## （和訳）コンポーネントを組み立てる
 
 では，再びシンプルな`<div>`で，CommentListとCommentFormのスケルトンを作りましょう：
 
@@ -340,7 +342,7 @@ var CommentBox = React.createClass({
 
 ===
 
-## Using props
+# Using props
 
 Let's create the Comment component, which will depend on data passed in from its parent. Data passed in from a parent component is available as a 'property' on the child component. These 'properties' are accessed through this.props. Using props we will be able to read the data passed to the Comment from the CommentList, and render some markup:
 
@@ -362,7 +364,7 @@ var Comment = React.createClass({
 
 By surrounding a JavaScript expression in braces inside JSX (as either an attribute or child), you can drop text or React components into the tree. We access named attributes passed to the component as keys on this.props and any nested elements as this.props.children.
 
-### （訳）propsを使う
+## （和訳）propsを使う
 
 それではCommentコンポーネントを作りましょう．親コンポーネントから渡されるデータに依存します．
 親コンポーネントから渡されるデータは，子コンポーネントでは'プロパティ'として利用できます．これらのプロパティ群には，this.propsを通じてアクセスします．CommentListコンポーネントからCommentコンポーネントへ渡されるデータを読むことができるpropsを使うには，マークアップをrenderする時に渡します．
@@ -387,7 +389,7 @@ JSXの中でJavaScriptを使うには（attributeか子コンポーネントと�
 
 ===
 
-## Component Properties
+# Component Properties
 
 Now that we have defined the Comment component, we will want to pass it the author name and comment text. This allows us to reuse the same code for each unique comment. Now let's add some comments within our CommentList:
 
@@ -407,7 +409,7 @@ var CommentList = React.createClass({
 
 Note that we have passed some data from the parent CommentList component to the child Comment components. For example, we passed Pete Hunt (via an attribute) and This is one comment (via an XML-like child node) to the first Comment. As noted above, the Comment component will access these 'properties' through this.props.author, and this.props.children.
 
-### （訳）コンポーネントのプロパティ
+## （和訳）コンポーネントのプロパティ
 
 さてCommentコンポーネントを定義したところで，コメントの投稿者とコメント・テキストを渡したいところでしょう．複数のコメントに対して同一コードを使用できます．では，CommentListコンポーネントにいくつかコメントを追加してみよう．
 
@@ -429,7 +431,7 @@ var CommentList = React.createClass({
 
 ===
 
-## Adding Markdown
+# Adding Markdown
 
 Markdown is a simple way to format your text inline. For example, surrounding text with asterisks will make it emphasized.
 
@@ -493,7 +495,7 @@ This is a special API that intentionally makes it difficult to insert raw HTML, 
 Remember: by using this feature you're relying on marked to be secure. In this case, we pass sanitize: true which tells marked to escape any HTML markup in the source instead of passing it through unchanged.
 
 
-### （和訳）Markdown機能を追加する
+## （和訳）Markdown機能を追加する
 
 Markdownはインライン・テキストを整形するのに簡単な機能です．例えばアスタリスクで囲んだテキストは強調されます．
 
@@ -618,7 +620,7 @@ return (
 That's it!
 
 
-### （和訳）データモデルを渡す
+## （和訳）データモデルを渡す
 
 これまではコメントをソースコード中に直接書いていました．今度はJSONデータをコメント・リストの中へレンダリングしてみましょう：
 
@@ -679,7 +681,7 @@ return (
 
 ===
 
-## Fetching from the server
+# Fetching from the server
 
 Let's replace the hard-coded data with some dynamic data from the server. We will remove the data prop and replace it with a URL to fetch:
 
@@ -693,7 +695,7 @@ React.render(
 
 This component is different from the prior components because it will have to re-render itself. The component won't have any data until the request from the server comes back, at which point the component may need to render some new comments.
 
-### （和訳）サーバからデータを取得する
+## （和訳）サーバからデータを取得する
 
 直接書いた（hard-coded）データを，サーバから取得する動的なデータに置き換えましょう．データ・プロパティを取りのぞきデータを取得するURLへ置き換えます：
 
@@ -709,7 +711,7 @@ React.render(
 
 ===
 
-## Reactive state
+# Reactive state
 
 So far, each component has rendered itself once based on its props. props are immutable: they are passed from the parent and are "owned" by the parent. To implement interactions, we introduce mutable state to the component. this.state is private to the component and can be changed by calling this.setState(). When the state is updated, the component re-renders itself.
 
@@ -738,7 +740,7 @@ render: function() {
 
 getInitialState() executes exactly once during the lifecycle of the component and sets up the initial state of the component.
 
-### （和訳）Reactのstate
+## （和訳）Reactのstate
 
 それぞれのコンポーネントは，propsを参照し，レンダリングを一度しかしません．propsはイミュータブル（不変）なのです：
 データは親コンポーネントから渡され，"親のもの"です．データのやりとりを実装するにはミュータブル（可変の）な*state*をコンポーネントへ用意しました．stateが更新されるとコンポーネントはレンダリングしなおします．
@@ -770,7 +772,7 @@ getInitialState() はそのコンポーネントのライフサイクルにお�
 
 ===
 
-### Updating state
+## Updating state
 
 When the component is first created, we want to GET some JSON from the server and update the state to reflect the latest data. In a real application this would be a dynamic endpoint, but for this example, we will use a static JSON file to keep things simple:
 
@@ -865,7 +867,7 @@ React.render(
 
 All we have done here is move the AJAX call to a separate method and call it when the component is first loaded and every 2 seconds after that. Try running this in your browser and changing the comments.json file; within 2 seconds, the changes will show!
 
-### （和訳）stateを更新する
+## （和訳）stateを更新する
 
 そのコンポーネントが作成された最初に，わたしたいはサーバからJSONデータをGETしたいです．stateに最新のデータを更新します．実際のアプリケーションではJSONをGETすることはダイナミック（動的に）行われることでしょう．でも，今回の例では，簡単な例に保つために静的なJSONデータファイルを使用していきます．
 
@@ -961,7 +963,7 @@ React.render(
 
 ===
 
-## Adding new comments
+# Adding new comments
 
 Now it's time to build the form. Our CommentForm component should ask the user for their name and comment text and send a request to the server to save the comment.
 
@@ -1011,17 +1013,17 @@ render: function() {
 });
 ```
 
-### Events
+## Events
 
 React attaches event handlers to components using a camelCase naming convention. We attach an onSubmit handler to the form that clears the form fields when the form is submitted with valid input.
 
 Call preventDefault() on the event to prevent the browser's default action of submitting the form.
 
-### Refs
+## Refs
 
 We use the ref attribute to assign a name to a child component and this.refs to reference the component. We can call React.findDOMNode(component) on a component to get the native browser DOM element.
 
-### Callbacks as props
+## Callbacks as props
 
 When a user submits a comment, we will need to refresh the list of comments to include the new one. It makes sense to do all of this logic in CommentBox since CommentBox owns the state that represents the list of comments.
 
@@ -1148,7 +1150,7 @@ var CommentBox = React.createClass({
 });
 ```
 
-### (和訳)新しいコメントを追加する
+## (和訳)新しいコメントを追加する
 
 それではフォームを作成しましょう．CommentFormコンポーネントは，コメント投稿者の名前とコメント・テキストが必要です．それからサーバへコメントを保存するようリクエストを送信します．
 
@@ -1197,16 +1199,16 @@ render: function() {
 });
 ```
 
-### Events
+## Events
 
 Reactはキャメルケースというネーミングルールに従い，イベントハンドラをコンポーネントに割り当てます．フォームで正しい入力が行われsubmitされたならば，フォームフィールドをクリアする onSubmit ハンドラをフォームに割り当てます．
 ブラウザのフォームをサブミットするデフォルト動作を抑制するために，イベントで preventDefault() を実行してください．
 
-### Refs
+## Refs
 
 子コンポーネントに対しての変数名として ref 属性をしようします．そして this.refs としてコンポーネントが参照します．コンポーネントではネイティブなブラウザDOM要素を取得するのに React.findDOMNode(component) を呼び出します．
 
-### Callbacks as props
+## Callbacks as props
 
 ユーザがコメントをサブミットした時，新しいコメントを含んだコメント・リストを更新しなければなりません．CommentBoxがコメントのリストを代表するstateを持っているので，コメントボックスの中でこのロジックの全てが行われているということがわかるでしょう．
 
@@ -1231,8 +1233,7 @@ var CommentBox = React.createClass({
   handleCommentSubmit: function(comment) {
     // TODO: submit to the server and refresh the list
   },
-  
-getInitialState: function() {
+  getInitialState: function() {
     return {data: []};
   },
   componentDidMount: function() {
@@ -1334,7 +1335,7 @@ var CommentBox = React.createClass({
 
 ===
 
-## Optimization: optimistic updates
+# Optimization: optimistic updates
 
 Our application is now feature complete but it feels slow to have to wait for the request to complete before your comment appears in the list. We can optimistically add this comment to the list to make the app feel faster.
 
@@ -1390,7 +1391,7 @@ var CommentBox = React.createClass({
 });
 ```
 
-### （和訳）最適化：最適な更新
+## （和訳）最適化：最適な更新
 
 アプリケーションは現在機能については完成していますが，リクエストが完了するのを待っているので，投稿したコメントがリストにでるまで，遅く感じます．もっと速く感じられるようにコメントに最適な修正を追加できます．
 
@@ -1448,11 +1449,11 @@ var CommentBox = React.createClass({
 
 ===
 
-## Congrats!
+# Congrats!
 
 You have just built a comment box in a few simple steps. Learn more about why to use React, or dive into the API reference and start hacking! Good luck!
 
-### （和訳）コングラッツ！
+## （和訳）コングラッツ！
 
 あなたは少量の簡単なステップをこなしてコメントボックスをつくりあげました．「なぜReactなのか」をもっと学ぶのならば，APIリファレンスにとびこんでハッキングを始めましょう！幸運を！
 
