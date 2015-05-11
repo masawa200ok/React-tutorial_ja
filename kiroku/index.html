@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>kiroku</title>
+  <script src="js/react.js"></script>
+  <script src="js/JSXTransformer.js"></script>
+</head>
+<body>
+
+<div id="content"></div>
+
+<script type="text/jsx">
+var data = [
+  {
+    "key": 1,
+    "title": "Task Title 1",
+    "summary": "Task 1 Summary",
+    "date_start": "201505111600",
+    "date_end": "201505111630",
+    "minutes": 11
+  },
+  {
+    "key": 2,
+    "title": "Task Title 2",
+    "summary": "Task 2 Summary",
+    "date_start": "201505111600",
+    "date_end": "201505111630",
+    "minutes": 12
+  }
+];
+
+var Task = React.createClass({
+  render: function() {
+    var data = this.props.data;
+    return (
+      <div className="Task">
+        <div>
+          <label htmlFor="">Title</label>
+          <span>{data.title}</span>
+        </div>
+        <div>
+          <label htmlFor="">Summary</label>
+          <span>{data.summary}</span>
+        </div>
+        <div>
+          <label htmlFor="">DateStart</label>
+          <span>{data.date_start}</span>
+        </div>
+        <div>
+          <label htmlFor="">DateEnd</label>
+          <span>{data.date_end}</span>
+        </div>
+        <div>
+          <label htmlFor="">Minutes</label>
+          <span>{data.minutes}</span>
+        </div>
+      </div>
+    );
+  }
+});
+
+var TaskList = React.createClass({
+  render: function() {
+    var tasks = this.props.data.map(function(datum) {
+      return (
+        <Task key={ datum.key } data={ datum } />
+      ); 
+    });
+    return (
+      <div className="TaskList">
+        { tasks }
+      </div>
+    ); 
+  }
+});
+
+React.render(
+  <TaskList data={data} />,
+  document.getElementById('content')
+);
+
+</script>
+
+</body>
+</html>
