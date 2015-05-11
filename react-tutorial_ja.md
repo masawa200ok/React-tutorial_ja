@@ -1202,7 +1202,7 @@ Reactはキャメルケースというネーミングルールに従い，イベ
 
 ## Refs
 
-子コンポーネントに対しての変数名として ref 属性をしようします．そして this.refs としてコンポーネントが参照します．コンポーネントではネイティブなブラウザDOM要素を取得するのに React.findDOMNode(component) を呼び出します．
+子コンポーネントへ参照名として ref 属性を使用します．そして this.refs としてコンポーネントを参照します．コンポーネントではネイティブなブラウザDOM要素を取得するのに React.findDOMNode(component) を呼び出します．
 
 ## Callbacks as props
 
